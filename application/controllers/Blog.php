@@ -29,6 +29,7 @@ class Blog extends CI_Controller{
         if($this->input->post()){
             $data['title'] = $this->input->post('title');
             $data['content'] = $this->input->post('content');
+            $data['url'] = $this->input->post('url');
             $id = $this->BlogModel->insert($data);
             if($id) {
                 echo "Sukses";
