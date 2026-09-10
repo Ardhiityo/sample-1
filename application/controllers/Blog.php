@@ -32,7 +32,8 @@ class Blog extends CI_Controller{
             $data['url'] = $this->input->post('url');
             $id = $this->BlogModel->insert($data);
             if($id) {
-                echo "Sukses";
+                redirect('/');
+                // echo "Sukses";
                 } else {
                 echo "Gagal";
             }
@@ -51,7 +52,7 @@ class Blog extends CI_Controller{
             $data['blog']['content'] = $this->input->post('content');
             $row_affected = $this->BlogModel->update($id, $data['blog']);
              if($row_affected) {
-                echo "Sukses";
+                // echo "Sukses";
                 } else {
                 echo "Gagal";
             }
