@@ -7,7 +7,11 @@
 </head>
 <body>
        <?php foreach ($blogs as $key => $blog): ?>
-        <h1><?php echo $blog['title'] ?></h1>
+        <h1>
+            <a href="<?php echo site_url("blog/detail/".$blog['url'])  ?>">
+                <?php echo $blog['title'] ?>
+            </a>
+        </h1>
         <p><?php echo $blog['content'] ?></p>
        <?php endforeach; ?>
 </body>
