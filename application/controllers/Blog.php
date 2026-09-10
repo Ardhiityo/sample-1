@@ -5,14 +5,11 @@ class Blog extends CI_Controller{
         parent::__construct();
         $this->load->database();
         $this->load->helper('url');
+        $this->load->model('BlogModel');
     }    
 
     public function index() {   
-        // raw sql
-        // $query = $this->db->query("SELECT * FROM blogs");
-        
-        // query builder
-        $query = $this->db->get("blogs");
+        $query = $this->BlogModel->getBlogs();
         
         $data['blogs'] = $query->result_array();
         
@@ -20,8 +17,7 @@ class Blog extends CI_Controller{
     }
     
     public function detail($url) {
-        $this->db->where('url', $url);
-        $query = $this->db->get("blogs");
+        $query = $this->BlogModel->getBlog($url);
         $data['blog'] = $query->row_array();
         
         return $this->load->view('blog-detail', $data);
