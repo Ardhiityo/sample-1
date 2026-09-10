@@ -56,4 +56,10 @@ class Blog extends CI_Controller{
         
         return $this->load->view('edit-blog', $data);
     }
+    
+    public function delete($id) {
+        $this->BlogModel->delete($id);
+        
+        return redirect('/');
+    }
 }

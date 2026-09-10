@@ -23,4 +23,10 @@ class BlogModel extends CI_Model {
          $this->db->update('blogs', $data);
          return $this->db->affected_rows();
     }
+         
+    public function delete($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('blogs');
+        return $this->db->affected_rows();
+    }
 }
