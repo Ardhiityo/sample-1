@@ -8,13 +8,19 @@ class BlogModel extends CI_Model {
         return $this->db->get("blogs");
     }
     
-    public function getBlog($url) {  
-        $this->db->where('url', $url);
+    public function getBlog($field, $value) {  
+        $this->db->where($field, $value);
         return $this->db->get("blogs");
     }
     
     public function insert($data) {
         $this->db->insert('blogs',$data);
         return $this->db->insert_id();
+    }
+    
+    public function update($id, $data) {
+         $this->db->where('id', $id);
+         $this->db->update('blogs', $data);
+         return $this->db->affected_rows();
     }
 }

@@ -17,7 +17,7 @@ class Blog extends CI_Controller{
     }
     
     public function detail($url) {
-        $query = $this->BlogModel->getBlog($url);
+        $query = $this->BlogModel->getBlog('url', $url);
         $data['blog'] = $query->row_array();
         
         return $this->load->view('blog-detail', $data);
@@ -36,5 +36,24 @@ class Blog extends CI_Controller{
         }
 
         return $this->load->view('add-blog');
+    }
+    
+    public function edit($id) {
+        $query = $this->BlogModel->getBlog('id', $id);
+        
+        $data['blog'] = $query->row_array();
+
+        if($this->input->post()){
+            $data['blog']['title'] = $this->input->post('title');
+            $data['blog']['content'] = $this->input->post('content');
+            $row_affected = $this->BlogModel->update($id, $data['blog']);
+             if($row_affected) {
+                echo "Sukses";
+                } else {
+                echo "Gagal";
+            }
+        }
+        
+        return $this->load->view('edit-blog', $data);
     }
 }
