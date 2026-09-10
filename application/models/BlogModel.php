@@ -1,11 +1,9 @@
 <?php
 
 class BlogModel extends CI_Model {
-    public function getBlogs() {
-        //raw sql
-        // return $this->db->query("SELECT * FROM blogs");
-        
-        return $this->db->get("blogs");
+    public function getBlogs($find) {
+        $this->db->like("title", $find);
+        return $this->db->get('blogs');
     }
     
     public function getBlog($field, $value) {  

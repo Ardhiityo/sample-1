@@ -9,8 +9,10 @@ class Blog extends CI_Controller{
     }    
 
     public function index() {   
-        $query = $this->BlogModel->getBlogs();
-        
+        $find = $this->input->get('find');
+  
+        $query = $this->BlogModel->getBlogs($find);
+    
         $data['blogs'] = $query->result_array();
         
         return $this->load->view('blog', $data);
