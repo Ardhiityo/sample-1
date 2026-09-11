@@ -18,6 +18,19 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
+            <?php
+            if ($this->session->flashdata('success')) {
+                echo
+                    '<div class="alert alert-success">'.
+                        $this->session->flashdata('success')
+                    .'</div>';
+            } else if ($this->session->flashdata('failed')) {
+                echo
+                    '<div class="alert alert-danger">'.
+                        $this->session->flashdata('failed')
+                    .'</div>';
+            }
+            ?>
             <form method="get">
                 <input type="text" name="find">
                 <button type="submit">Find</button>
@@ -32,13 +45,15 @@
                     <p class="post-meta">
                         Posted on September <?php echo $blog['date'] ?>
                         <a href="<?php echo "/blog/edit/".$blog['id'] ?>">Edit</a>
-                        <a href="<?php echo "/blog/delete/".$blog['id'] ?>">Delete</a>
+                        <a 
+                         onclick="return confirm('Are you sure want to delete data?')"
+                         href="<?php echo "/blog/delete/".$blog['id'] ?>">Delete</a>
                     </p>
                 </div>
                 <!-- Divider-->
                 <hr class="my-4" />
             <?php endforeach ?>
-            
+
             <?php echo $this->pagination->create_links() ?>
         </div>
     </div>

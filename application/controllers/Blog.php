@@ -6,12 +6,13 @@ class Blog extends CI_Controller
     {
         parent::__construct();
         $this->load->model('BlogModel');
+        $this->load->library('session');
     }
 
     public function index($offset = 0)
     {
         $this->load->library('pagination');
-        
+
         $config['base_url'] = '/blog/index/';
         $config['total_rows'] = $this->BlogModel->getTotalBlogs();
         $config['per_page'] = 3;
@@ -46,14 +47,13 @@ class Blog extends CI_Controller
                 $config['upload_path'] = './uploads/';
                 $config['allowed_types'] = 'jpg|png|jpeg';
                 $config['max_size'] = 100;
-                // Nama file custom
                 $config['file_name'] = 'cover'.time();
 
                 $this->load->library('upload', $config);
 
                 if (! $this->upload->do_upload('cover')) {
-                    echo $this->upload->display_errors();
-                    exit;
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    return $this->load->view('add-blog');
                 } else {
                     $file_uploaded = $this->upload->data();
                     $data['cover'] = $file_uploaded['file_name'];
@@ -62,12 +62,13 @@ class Blog extends CI_Controller
             $data['title'] = $this->input->post('title');
             $data['content'] = $this->input->post('content');
             $data['url'] = $this->input->post('url');
-            $id = $this->BlogModel->insert($data);
-            if ($id) {
+            $affected_row = $this->BlogModel->insert($data);
+            if ($affected_row) {
+                $this->session->set_flashdata('success', 'Post successfully created.');
                 redirect('/');
-                // echo "Sukses";
             } else {
-                echo "Gagal";
+                $this->session->set_flashdata('failed', 'Post failed created.');
+                redirect('/');
             }
         }
 
@@ -94,9 +95,10 @@ class Blog extends CI_Controller
                 $config['file_name'] = 'cover'.time();
 
                 $this->load->library('upload', $config);
+
                 if (! $this->upload->do_upload('cover')) {
-                    echo $this->upload->display_errors();
-                    exit;
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    return $this->load->view('edit-blog', $data);
                 }
 
                 if ($data['blog']['cover']) {
@@ -112,7 +114,12 @@ class Blog extends CI_Controller
 
             $data['blog']['title'] = $this->input->post('title');
             $data['blog']['content'] = $this->input->post('content');
-            $this->BlogModel->update($id, $data['blog']);
+            $affected_row = $this->BlogModel->update($id, $data['blog']);
+            if ($affected_row) {
+                $this->session->set_flashdata('success', 'Post successfully updated.');
+            } else {
+                $this->session->set_flashdata('failed', 'Post failed updated.');
+            }
         }
 
         return $this->load->view('edit-blog', $data);
@@ -120,7 +127,13 @@ class Blog extends CI_Controller
 
     public function delete($id)
     {
-        $this->BlogModel->delete($id);
+        $affected_row = $this->BlogModel->delete($id);
+
+        if ($affected_row) {
+            $this->session->set_flashdata('success', 'Post successfully deleted.');
+        } else {
+            $this->session->set_flashdata('failed', 'Post failed deleted.');
+        }
 
         return redirect('/');
     }
