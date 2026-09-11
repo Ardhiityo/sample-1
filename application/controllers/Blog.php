@@ -70,11 +70,17 @@ class Blog extends CI_Controller
 
     public function edit($id)
     {
+        $this->form_validation->set_rules([
+            ['field' => 'title', 'label' => 'Title', 'rules' => 'required'],
+            ['field' => 'url', 'label' => 'URL', 'rules' => 'required|alpha_dash'],
+            ['field' => 'content', 'label' => 'Content', 'rules' => 'required']
+        ]);
+
         $query = $this->BlogModel->getBlog('id', $id);
 
         $data['blog'] = $query->row_array();
 
-        if ($this->input->post()) {
+        if ($this->form_validation->run()) {
             if ($_FILES['cover']['name']) {
                 $config['upload_path'] = './uploads/';
                 $config['allowed_types'] = 'jpg|png|jpeg';

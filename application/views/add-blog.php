@@ -17,9 +17,7 @@
 <div class="container py-5">
     <div class="row flex justify-content-center">
         <div class="col-8 ">
-            <div class="alert alert-warning">
-                <?php echo validation_errors(); ?>
-            </div>
+            <?php echo validation_errors() ? "<div class='alert alert-warning'>".validation_errors()."</div>" : ""; ?>
             <?php echo form_open_multipart() ?>
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
