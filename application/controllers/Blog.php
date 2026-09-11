@@ -29,21 +29,29 @@ class Blog extends CI_Controller
 
     public function add()
     {
-        if ($this->input->post()) {
-            $config['upload_path'] = './uploads/';
-            $config['allowed_types'] = 'jpg|png|jpeg';
-            $config['max_size'] = 100;
-            // Nama file custom
-            $config['file_name'] = 'cover'.time();
+        $this->form_validation->set_rules([
+            ['field' => 'title', 'label' => 'Title', 'rules' => 'required'],
+            ['field' => 'url', 'label' => 'URL', 'rules' => 'required|alpha_dash'],
+            ['field' => 'content', 'label' => 'Content', 'rules' => 'required']
+        ]);
 
-            $this->load->library('upload', $config);
+        if ($this->form_validation->run()) {
+            if ($_FILES['cover']['name']) {
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'jpg|png|jpeg';
+                $config['max_size'] = 100;
+                // Nama file custom
+                $config['file_name'] = 'cover'.time();
 
-            if (! $this->upload->do_upload('cover')) {
-                echo $this->upload->display_errors();
-                exit;
-            } else {
-                $file_uploaded = $this->upload->data();
-                $data['cover'] = $file_uploaded['file_name'];
+                $this->load->library('upload', $config);
+
+                if (! $this->upload->do_upload('cover')) {
+                    echo $this->upload->display_errors();
+                    exit;
+                } else {
+                    $file_uploaded = $this->upload->data();
+                    $data['cover'] = $file_uploaded['file_name'];
+                }
             }
             $data['title'] = $this->input->post('title');
             $data['content'] = $this->input->post('content');
