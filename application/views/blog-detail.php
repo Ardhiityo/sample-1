@@ -1,30 +1,37 @@
-     <?php $this->load->view('/templates/header') ?>
-     
-        <!-- Page Header-->
-       <header class="masthead" style="background-image: url('/assets/img/post-bg.jpg')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="post-heading">
-                            <h1 class="text-center"><?php echo $blog['title'] ?></h1>
-                            <span class="meta text-center">
-                                Posted on <?php echo $blog['date'] ?>
-                            </span>
-                        </div>
-                    </div>
+<?php $this->load->view('/templates/header') ?>
+
+<!-- Page Header-->
+
+<?php
+if ($blog['cover']) $cover = '/uploads/'.$blog['cover'];
+else $cover = '/assets/img/post-bg.jpg';
+?>
+
+<header class="masthead"
+    style="background-image: url('<?php echo $cover ?>')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1 class="text-center"><?php echo $blog['title'] ?></h1>
+                    <span class="meta text-center">
+                        Posted on <?php echo $blog['date'] ?>
+                    </span>
                 </div>
             </div>
-        </header>
-        
-        <!-- Main Content-->
-         <article class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                      <?php echo $blog['content'] ?>
-                    </div>
-                </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <?php echo $blog['content'] ?>
             </div>
-        </article>
-        
-     <?php $this->load->view('/templates/footer') ?>
+        </div>
+    </div>
+</article>
+
+<?php $this->load->view('/templates/footer') ?>
