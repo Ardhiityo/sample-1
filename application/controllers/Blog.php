@@ -33,7 +33,6 @@ class Blog extends CI_Controller
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'jpg|png|jpeg';
             $config['max_size'] = 100;
-            $config['max_width'] = 1024;
             // Nama file custom
             $config['file_name'] = 'cover'.time();
 
@@ -68,14 +67,32 @@ class Blog extends CI_Controller
         $data['blog'] = $query->row_array();
 
         if ($this->input->post()) {
+            if ($_FILES['cover']['name']) {
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'jpg|png|jpeg';
+                $config['max_size'] = 100;
+                $config['file_name'] = 'cover'.time();
+
+                $this->load->library('upload', $config);
+                if (! $this->upload->do_upload('cover')) {
+                    echo $this->upload->display_errors();
+                    exit;
+                }
+
+                if ($data['blog']['cover']) {
+                    $file = './uploads/'.$data['blog']['cover'];
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+
+                $file_uploaded = $this->upload->data();
+                $data['blog']['cover'] = $file_uploaded['file_name'];
+            }
+
             $data['blog']['title'] = $this->input->post('title');
             $data['blog']['content'] = $this->input->post('content');
-            $row_affected = $this->BlogModel->update($id, $data['blog']);
-            if ($row_affected) {
-                // echo "Sukses";
-            } else {
-                echo "Gagal";
-            }
+            $this->BlogModel->update($id, $data['blog']);
         }
 
         return $this->load->view('edit-blog', $data);
