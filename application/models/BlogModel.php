@@ -1,27 +1,45 @@
 <?php
 
-class BlogModel extends CI_Model {
-    public function getBlogs($find) {
+class BlogModel extends CI_Model
+{
+    public function getBlogs($limit, $offset)
+    {
+        $find = $this->input->get('find');
         $this->db->like("title", $find);
-        return $this->db->get('blogs');
+
+        return $this->db->get('blogs', $limit, $offset);
     }
-    
-    public function getBlog($field, $value) {  
+
+    public function getTotalBlogs()
+    {
+        $find = $this->input->get('find');
+        $this->db->like("title", $find);
+
+        return $this->db->count_all_results('blogs');
+    }
+
+    public function getBlog($field, $value)
+    {
         $this->db->where($field, $value);
+
         return $this->db->get("blogs");
     }
-    
-    public function insert($data) {
-        $this->db->insert('blogs',$data);
+
+    public function insert($data)
+    {
+        $this->db->insert('blogs', $data);
+
         return $this->db->insert_id();
     }
-    
-    public function update($id, $data) {
-         $this->db->where('id', $id);
-         $this->db->update('blogs', $data);
+
+    public function update($id, $data)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('blogs', $data);
     }
-         
-    public function delete($id) {
+
+    public function delete($id)
+    {
         $this->db->where('id', $id);
         $this->db->delete('blogs');
     }
