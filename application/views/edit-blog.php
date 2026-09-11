@@ -24,6 +24,7 @@
                     $this->session->flashdata('error')
                     .'</div>';
             }
+            echo validation_errors() ? '<div class="alert alert-warning">'.validation_errors().'</div>' : null;
             ?>
             <?php echo form_open_multipart() ?>
             <div class="mb-3">

@@ -22,18 +22,20 @@
             if ($this->session->flashdata('success')) {
                 echo
                     '<div class="alert alert-success">'.
-                        $this->session->flashdata('success')
+                    $this->session->flashdata('success')
                     .'</div>';
             } else if ($this->session->flashdata('failed')) {
                 echo
                     '<div class="alert alert-danger">'.
-                        $this->session->flashdata('failed')
+                    $this->session->flashdata('failed')
                     .'</div>';
             }
             ?>
             <form method="get">
-                <input type="text" name="find">
-                <button type="submit">Find</button>
+                <div class="d-flex">
+                    <input type="text" name="find" class="form-input w-100">
+                    <button type="submit" class="btn btn-primary">Find</button>
+                </div>
             </form>
             <!-- Post preview-->
             <?php foreach ($blogs as $key => $blog) : ?>
@@ -42,13 +44,15 @@
                         <h2 class="post-title"><?php echo $blog['title'] ?></h2>
                         <h3 class="post-subtitle"><?php echo $blog['content'] ?></h3>
                     </a>
-                    <p class="post-meta">
-                        Posted on September <?php echo $blog['date'] ?>
-                        <a href="<?php echo "/blog/edit/".$blog['id'] ?>">Edit</a>
-                        <a 
-                         onclick="return confirm('Are you sure want to delete data?')"
-                         href="<?php echo "/blog/delete/".$blog['id'] ?>">Delete</a>
-                    </p>
+                    <?php
+                    if (isset($_SESSION['user'])) : ?>
+                        <p class="post-meta">
+                            Posted on September <?php echo $blog['date'] ?>
+                            <a href="<?php echo "/blog/edit/".$blog['id'] ?>">Edit</a>
+                            <a onclick="return confirm('Are you sure want to delete data?')"
+                                href="<?php echo "/blog/delete/".$blog['id'] ?>">Delete</a>
+                        </p>
+                    <?php endif ?>
                 </div>
                 <!-- Divider-->
                 <hr class="my-4" />

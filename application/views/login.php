@@ -5,9 +5,9 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="post-heading">
-                    <h1 class="text-center">Add Post</h1>
+                    <h1 class="text-center">Login</h1>
                     <span class="meta text-center">
-                        Make your creativity
+                        Login to your account
                     </span>
                 </div>
             </div>
@@ -26,22 +26,14 @@
             }
             echo validation_errors() ? '<div class="alert alert-warning">'.validation_errors().'</div>' : null;
             ?>
-            <?php echo form_open_multipart() ?>
+            <?php echo form_open() ?>
             <div class="mb-3">
-                <label class="form-label" for="title">Title</label>
-                <?php echo form_input('title', set_value('title'), ['class' => 'form-control', 'id' => 'title']) ?>
+                <label class="form-label" for="username">Username</label>
+                <?php echo form_input('username', set_value('username'), ['class' => 'form-control', 'id' => 'username']) ?>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="url">Url</label>
-                <?php echo form_input('url', set_value('url'), ['class' => 'form-control', 'id' => 'url']) ?>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="content">Content</label>
-                <?php echo form_textarea('content', set_value('content'), ['class' => 'form-control', 'id' => 'content']); ?>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="cover">Cover</label>
-                <?php echo form_upload('cover', set_value('cover'), ['class' => 'form-control', 'id' => 'cover']); ?>
+                <label class="form-label" for="password">Password</label>
+                <?php echo form_password('password', set_value('password'), ['class' => 'form-control', 'id' => 'password']) ?>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             </form>

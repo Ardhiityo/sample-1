@@ -36,6 +36,10 @@ class Blog extends CI_Controller
 
     public function add()
     {
+        if (! $_SESSION['user']) {
+            redirect('/');
+        }
+
         $this->form_validation->set_rules([
             ['field' => 'title', 'label' => 'Title', 'rules' => 'required'],
             ['field' => 'url', 'label' => 'URL', 'rules' => 'required|alpha_dash'],
@@ -77,6 +81,10 @@ class Blog extends CI_Controller
 
     public function edit($id)
     {
+        if (! $_SESSION['user']) {
+            redirect('/');
+        }
+        
         $this->form_validation->set_rules([
             ['field' => 'title', 'label' => 'Title', 'rules' => 'required'],
             ['field' => 'url', 'label' => 'URL', 'rules' => 'required|alpha_dash'],
@@ -136,5 +144,34 @@ class Blog extends CI_Controller
         }
 
         return redirect('/');
+    }
+
+    public function login()
+    {
+        $this->form_validation->set_rules([
+            ['field' => 'username', 'label' => 'Username', 'rules' => 'required'],
+            ['field' => 'password', 'label' => 'Password', 'rules' => 'required'],
+        ]);
+
+        if ($this->form_validation->run()) {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            if ($username === 'root' && $password === 'secret') {
+                $_SESSION['user'] = 'root';
+                $this->session->set_flashdata('success', 'Login successfully');
+                redirect('/');
+            } else {
+                $this->session->set_flashdata('error', 'Username or Password is wrong');
+            }
+        }
+        return $this->load->view('login');
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        $this->session->set_flashdata('success', 'Login successfully');
+        return redirect('/blog/login');
     }
 }
