@@ -17,18 +17,18 @@
 <div class="container py-5">
     <div class="row flex justify-content-center">
         <div class="col-8 ">
-            <form method="post">
+            <?php echo form_open() ?>
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" name="title">
+                    <?php echo form_input('title', null, ['class' => 'form-control', 'id' => 'title']) ?>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="url">Url</label>
-                    <input class="form-control" type="text" name="url">
+                    <?php echo form_input('url', null, ['class' => 'form-control', 'id' => 'url']) ?>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="content">Content</label>
-                    <textarea name="content" class="form-control" id="content"></textarea>
+                    <?php echo form_textarea('content', null, ['class' => 'form-control', 'id' => 'content']); ?>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
